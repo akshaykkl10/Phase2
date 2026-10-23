@@ -51,7 +51,7 @@ CREATE TABLE "Ticket" (
     "id" TEXT NOT NULL,
     "category_id" TEXT NOT NULL,
     "created_by_id" TEXT NOT NULL,
-    "assigned_to_id" TEXT NOT NULL,
+    "assigned_to_id" TEXT,
     "title" VARCHAR(500) NOT NULL,
     "description" VARCHAR(3000),
     "priority" "TicketPriority" NOT NULL,

@@ -71,7 +71,7 @@ model Ticket {
   id            String         @id @default(cuid())
   category_id   String
   created_by_id String
-  assigned_to_id String
+  assigned_to_id String?
   title         String         @db.VarChar(500)
   description   String?        @db.VarChar(3000)
   priority      TicketPriority
@@ -85,7 +85,7 @@ model Ticket {
 
   category   Category @relation("TicketCategory", fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   created_by Users    @relation("CreatedTickets", fields: [created_by_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  assigned_to Users    @relation("AssignedTickets", fields: [assigned_to_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assigned_to Users?    @relation("AssignedTickets", fields: [assigned_to_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([title], map: "ticket_title")
 }
