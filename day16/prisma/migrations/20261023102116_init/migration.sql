@@ -55,7 +55,7 @@ CREATE TABLE "Ticket" (
     "title" VARCHAR(500) NOT NULL,
     "description" VARCHAR(3000),
     "priority" "TicketPriority" NOT NULL,
-    "status" "TicketStatus" NOT NULL,
+    "status" "TicketStatus" NOT NULL DEFAULT 'OPEN',
     "createdat" TIMESTAMP(6) NOT NULL DEFAULT LOCALTIMESTAMP,
     "updatedat" TIMESTAMP(6) NOT NULL DEFAULT LOCALTIMESTAMP,
 

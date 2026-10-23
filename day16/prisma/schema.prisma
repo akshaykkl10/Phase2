@@ -75,7 +75,7 @@ model Ticket {
   title         String         @db.VarChar(500)
   description   String?        @db.VarChar(3000)
   priority      TicketPriority
-  status        TicketStatus
+  status        TicketStatus   @default(OPEN)
   createdat     DateTime       @default(dbgenerated("LOCALTIMESTAMP")) @db.Timestamp(6)
   updatedat     DateTime       @default(dbgenerated("LOCALTIMESTAMP")) @db.Timestamp(6)
 
