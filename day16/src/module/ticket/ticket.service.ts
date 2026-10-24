@@ -25,20 +25,22 @@ export class TicketService {
         return ticket;
     }
 
-    async listTickets(input: ListTicketsInput) {
+    async listTickets(query: ListTicketsInput) {
         const filters: Partial<{
-        status: TicketStatus;
-        priority: TicketPriority;
+            status: TicketStatus;
+            priority: TicketPriority;
         }> = {};
-        if (input.status) {
-            filters.status = input.status;
-        }
 
-        if (input.priority) {
-            filters.priority = input.priority;
+        if (query.status) {
+            filters.status = query.status;
         }
-        const page = input.page && input.page > 0 ? input.page : 1;
-        const limit = input.limit && input.limit > 0 ? input.limit : 10;
+        
+        if (query.priority) {
+            filters.priority = query.priority;
+        }
+        const page = query.page && Number(query.page) > 0 ? Number(query.page) : 1;
+        const limit = query.limit && Number(query.limit) > 0 ? Number(query.limit) : 10;
+        console.log(page, limit, filters)   
         const { item, total } = await repository.findMany(filters, {
             page,
             limit

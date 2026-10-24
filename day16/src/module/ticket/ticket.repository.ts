@@ -4,8 +4,6 @@ import { prisma } from '../../db/prisma.js'
 type TicketFilters = {
   status?: TicketStatus;
   priority?: TicketPriority;
-  assignedToId?: string;
-  createdById?: string;
 };
 
 type PaginationInput = {
@@ -50,15 +48,10 @@ export class TicketRepository {
         });
     }
     async findMany (filters: TicketFilters, pagination: PaginationInput) {
-        const where = {
-            ...(filters.status? {status: filters.status}: {}),
-            ...(filters.priority? {priority: filters.priority}: {}),
-            ...(filters.assignedToId? {assignedToId: filters.assignedToId}: {}),
-            ...(filters.createdById? {createdById: filters.createdById}: {}),
-        }
+        
         const [item, total] = await Promise.all([
             prisma.ticket.findMany({
-                where,
+                where: filters,
                 include: ticketInclude,
                 orderBy: {
                     createdat: 'asc'
@@ -66,7 +59,7 @@ export class TicketRepository {
                 skip: (pagination.page - 1) * pagination.limit,
                 take: pagination.limit
             }),
-            prisma.ticket.count({where})
+            prisma.ticket.count({where: filters})
         ])
         return {item, total}
     }

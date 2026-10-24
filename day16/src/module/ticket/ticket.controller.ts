@@ -14,7 +14,7 @@ export class TicketController {
         response.status(201).json({data: ticket})
     }
     async listTickets(request: Request, response: Response) {
-        const tickets = await service.listTickets(request.body as ListTicketsInput)
+        const tickets = await service.listTickets(request.query as unknown as ListTicketsInput)
         response.status(201).json(tickets)
     }
     async updateTicket(request: Request, response: Response) {
