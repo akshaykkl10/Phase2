@@ -1,6 +1,6 @@
 import argon2 from 'argon2';
 import { Role, TicketPriority, TicketStatus } from '../src/generated/enums.js';
-import { PrismaClient, ticket } from '../src/generated/client.js';
+import { PrismaClient } from '../src/generated/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { env } from '../src/config/env.js';
 
