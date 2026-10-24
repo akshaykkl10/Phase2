@@ -28,4 +28,13 @@ export function errorHandler(
             }
         }); 
     }
+    if (error instanceof Error) {
+        if(error.message == 'USER_EXISTS')
+       response.status(404).json({
+            error: {
+                code: "USER_EXISTS",
+                message: "The email is already registered."
+            }
+        }); 
+    }
 }
