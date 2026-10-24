@@ -40,7 +40,6 @@ export class TicketService {
         }
         const page = query.page && Number(query.page) > 0 ? Number(query.page) : 1;
         const limit = query.limit && Number(query.limit) > 0 ? Number(query.limit) : 10;
-        console.log(page, limit, filters)   
         const { item, total } = await repository.findMany(filters, {
             page,
             limit
