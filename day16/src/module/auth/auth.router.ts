@@ -6,5 +6,5 @@ export const authRoutes = Router();
 const controller = new AuthController
 
 authRoutes.post('/register', controller.register)
-// authRoutes.post('/login')
+authRoutes.get('/users', controller.getUsers)
 // authRoutes.post('/me')
