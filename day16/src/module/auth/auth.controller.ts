@@ -10,7 +10,7 @@ export class AuthController {
         response.status(201).json({data})
     }
     async getUsers(request: Request, response: Response) {
-        const data = await service.getUsers(request.body, request.query)
+        const data = await service.getUsers(request.query)
         response.status(202).json({data})
     }
 }

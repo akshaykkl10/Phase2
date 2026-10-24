@@ -29,14 +29,14 @@ export class AuthService {
         }
         return repository.register(body)
     }
-    async getUsers(body: ListUserInput, query: Record<string, any>) {
+    async getUsers(query: Record<string, any>) {
 
         const filters: UserFilters = {}
         const pagination: PaginationInput = {
             page: query.page? query.page = Number(query.page) : query.page = 1,
             limit: query.limit? query.limit = Number(query.limit) : query.limit = 10
         }
-        if(body.role) filters.role = body.role
+        if(query.role) filters.role = query.role
         
         
         const {users, total} =  await repository.getUsers(filters, pagination)
