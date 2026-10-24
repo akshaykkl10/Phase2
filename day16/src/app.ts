@@ -4,9 +4,11 @@ import { userRoutes } from "./module/user/user.router.js";
 import { ticketRoutes } from "./module/ticket/ticket.router.js";
 import { authRoutes } from "./module/auth/auth.router.js";
 import { errorHandler, notFoundError } from "./middleware/error.middleware.js";
+import { logger } from "./middleware/logger.middleware.js";
 
 export const app = express();
 
+app.use(logger)
 app.use(express.json())
 app.get('/health', async (_request, response, next) => {
   try {
@@ -19,8 +21,8 @@ app.get('/health', async (_request, response, next) => {
     next(error);
   }
 });
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
+// app.use('/api/auth', authRoutes);
+// app.use('/api/users', userRoutes);
 app.use('/api/tickets', ticketRoutes);
 
 app.use(notFoundError)
