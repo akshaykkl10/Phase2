@@ -1,6 +1,7 @@
 import { Role, type Prisma } from "../../generated/client.js";
 import { AuthRepository } from "./auth.repository.js";
 import { type CreateUserInput, type ListUserInput} from "./auth.shemas.js";
+import { hashPassword } from "./password.js";
 
 type UserFilters = {
     role?: Role
@@ -27,6 +28,7 @@ export class AuthService {
         if(await userExists(body.email)){
             throw new Error("USER_EXISTS")
         }
+        body.password = await hashPassword(body.password)
         return repository.register(body)
     }
     async getUsers(query: Record<string, any>) {
