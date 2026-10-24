@@ -1,4 +1,4 @@
-import {  Prisma, TicketPriority, TicketStatus } from '../../generated/client.js';
+import type {  Prisma, TicketPriority, TicketStatus } from '../../generated/client.js';
 import { prisma } from '../../db/prisma.js'
 
 type TicketFilters = {
@@ -56,7 +56,7 @@ export class TicketRepository {
             ...(filters.assignedToId? {assignedToId: filters.assignedToId}: {}),
             ...(filters.createdById? {createdById: filters.createdById}: {}),
         }
-        const [data, total] = await Promise.all([
+        const [item, total] = await Promise.all([
             prisma.ticket.findMany({
                 where,
                 include: ticketInclude,
@@ -68,7 +68,7 @@ export class TicketRepository {
             }),
             prisma.ticket.count({where})
         ])
-        return {data, total}
+        return {item, total}
     }
     async update (id: string, data: Prisma.TicketUncheckedUpdateInput) {
         return prisma.ticket.update({
