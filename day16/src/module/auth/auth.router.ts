@@ -7,4 +7,5 @@ const controller = new AuthController
 
 authRoutes.post('/register', controller.register)
 authRoutes.get('/users', controller.getUsers)
-// authRoutes.post('/me')
+authRoutes.post('/login', controller.login)
+authRoutes.post('/me', controller.me)
