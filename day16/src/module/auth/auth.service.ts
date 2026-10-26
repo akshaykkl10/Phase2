@@ -91,7 +91,6 @@ export class AuthService {
     async me(token: string) {
         if(!token) throw new Error("INVALID_CREDENTIAL");
         const payload = await authTocken(token.replace('Bearer ', '')) as TokenPayload
-        console.log(payload)
         return {
             id: payload.id,
             email: payload.email,
