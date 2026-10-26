@@ -18,7 +18,7 @@ export function errorHandler(
     error: unknown,
     _request: Request,
     response: Response,
-    _next: NextFunction
+    next: NextFunction
 ) {
     if (error instanceof ZodError) {
        response.status(404).json({
@@ -29,12 +29,21 @@ export function errorHandler(
         }); 
     }
     if (error instanceof Error) {
-        if(error.message == 'USER_EXISTS')
-       response.status(404).json({
+        if(error.message == 'USER_EXISTS') {
+            response.status(404).json({
+                 error: {
+                     code: "USER_EXISTS",
+                     message: "The email is already registered."
+                 }
+            }); 
+            next()
+        }
+        response.status(404).json({
             error: {
-                code: "USER_EXISTS",
-                message: "The email is already registered."
+                code: "UNKNOWN ERROR",
+                message: error.message
             }
         }); 
+
     }
 }
