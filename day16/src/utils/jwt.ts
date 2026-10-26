@@ -17,7 +17,9 @@ export async function authTocken(token: string) {
         const {payload} = await jwtVerify(token, SECRET_KEY)
         return payload
     } catch (error: unknown) {
-        if (error instanceof Error)
-        throw new Error(error.message)
+        if (error instanceof Error) {
+            if(error.message.includes("expired"))
+            throw new Error("TOKEN_EXPIRED")
+        }
     }
 }

@@ -38,6 +38,15 @@ export function errorHandler(
             }); 
             next()
         }
+        if(error.message == 'TOKEN_EXPIRED') {
+            response.status(404).json({
+                 error: {
+                     code: "TOKEN_EXPIRED",
+                     message: "Your Session Expired. Please login again."
+                 }
+            }); 
+            next()
+        }
         response.status(404).json({
             error: {
                 code: "UNKNOWN ERROR",
