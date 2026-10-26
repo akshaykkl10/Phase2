@@ -47,6 +47,15 @@ export function errorHandler(
             }); 
             next()
         }
+        if(error.message == 'TOKEN_INVALID') {
+            response.status(404).json({
+                 error: {
+                     code: "TOKEN_INVALID",
+                     message: "Your token is invalid."
+                 }
+            }); 
+            next()
+        }
         response.status(404).json({
             error: {
                 code: "UNKNOWN ERROR",
