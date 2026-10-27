@@ -18,6 +18,8 @@ export const createTicketSchema = z.object({
 export const listTicketsQuerySchema = paginationQuerySchema.extend({
   status: z.nativeEnum(TicketStatus).optional(),
   priority: z.nativeEnum(TicketPriority).optional(),
+  created_by_id: z.string().trim().min(1).optional(),
+  assigned_to_id: z.string().trim().min(1).optional()
 });
 
 export const updateTicketSchema = z
