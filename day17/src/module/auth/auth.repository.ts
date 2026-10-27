@@ -38,9 +38,7 @@ const userInclude = {
 
 
 export class AuthRepository {
-    async register(input: Prisma.UsersUncheckedCreateInput) {
-        return prisma.users.create({data: input})
-    }
+    
     async getUser(email: string) {
         return prisma.users.findUnique({
             where: {
@@ -48,20 +46,5 @@ export class AuthRepository {
             },
             include: userInclude
         })
-    }
-    async getUsers(filters: UserFilters, pagination: PaginationInput) {
-        const where = {
-            ...(filters.role? {role: filters.role}: {})
-        }
-        const [users, total] = await Promise.all([
-            prisma.users.findMany({
-                where,
-                include: userInclude,
-                skip: (pagination.page - 1) * pagination.limit,
-                take: pagination.limit
-            }),
-            prisma.users.count({})
-        ])
-        return{ users, total}
     }
 }
