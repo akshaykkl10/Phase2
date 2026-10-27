@@ -22,7 +22,7 @@ app.get('/health', async (_request, response, next) => {
   }
 });
 app.use('/api/auth', authRoutes);
-// app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/tickets', ticketRoutes);
 
 app.use(notFoundError)
