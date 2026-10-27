@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { authTocken } from "../utils/jwt.js";
+import { Role } from "../generated/enums.js";
 
 type TokenPayload = {
     id: string
@@ -18,7 +19,7 @@ declare global {
     }
 }
 
-export async function authUser(request: Request, response: Response, next: NextFunction) {
+export async function authUser(request: Request, _response: Response, next: NextFunction) {
     const authHeader = request.headers.authorization
     
     if(!authHeader?.startsWith('Bearer ')) {
@@ -39,7 +40,7 @@ export async function authUser(request: Request, response: Response, next: NextF
             email: payload.email,
             role: payload.role
         };
-        next();
+        return next();
     }
     catch(error: unknown) {
         if(error instanceof Error) {
@@ -49,4 +50,11 @@ export async function authUser(request: Request, response: Response, next: NextF
             return next(err); 
         }
     }
+}
+
+export function requireRole(request: Request, _response: Response, next: NextFunction) {
+    if(request.user.role == Role.ADMIN) {
+        return next();
+    }
+    throw new Error('FORBIDDEN')
 }
