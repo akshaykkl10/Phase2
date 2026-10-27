@@ -56,6 +56,15 @@ export function errorHandler(
             }); 
             next()
         }
+        if(error.message == 'FORBIDDEN') {
+            response.status(403).json({
+                 error: {
+                     code: "FORBIDDEN",
+                     message: "You lack permissions for this action."
+                 }
+            }); 
+            next()
+        }
         response.status(404).json({
             error: {
                 code: "UNKNOWN ERROR",
