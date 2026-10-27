@@ -1,6 +1,6 @@
 import { Role } from "../../generated/enums.js";
 import { UserRepository } from "./user.repository.js";
-import { type CreateUserInput, type ListUserInput} from "../auth/auth.shemas.js";
+import { type CreateUserInput, type ListUserInput} from "./user.schemas.js";
 import { hashPassword, verifyPassword } from "../../utils/password.js";
 
 
@@ -32,7 +32,7 @@ export class UserService {
         body.password = await hashPassword(body.password)
         return repository.register(body)
     }
-    async getUsers(query: Record<string, any>) {
+    async getUsers(query: ListUserInput) {
 
         const filters: UserFilters = {}
         const pagination: PaginationInput = {
