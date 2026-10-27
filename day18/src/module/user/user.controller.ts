@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { UserService } from "./user.service.js";
-import type { CreateUserInput } from "../auth/auth.shemas.js";
+import type { CreateUserInput, ListUserInput } from "./user.schemas.js";
 
 const service = new UserService()
 
@@ -10,7 +10,7 @@ export class UserController {
         response.status(201).json({data})
     }
     async getUsers(request: Request, response: Response) {
-        const data = await service.getUsers(request.query)
+        const data = await service.getUsers(request.query as ListUserInput)
         response.status(202).json({data})
     }
     async getUser(request: Request, response: Response) {
