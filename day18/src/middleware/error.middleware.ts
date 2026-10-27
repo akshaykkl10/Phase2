@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { ZodError } from "zod";
+import z, { ZodError } from "zod";
 
 export function notFoundError(
     _request: Request,
@@ -21,10 +21,11 @@ export function errorHandler(
     next: NextFunction
 ) {
     if (error instanceof ZodError) {
+        const flattened = z.flattenError(error);
        response.status(404).json({
             error: {
                 code: "VALIDATION_ERROR",
-                message: "Route not found"
+                message: flattened.fieldErrors
             }
         }); 
     }
