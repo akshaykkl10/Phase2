@@ -27,6 +27,6 @@ export class TicketController {
     }
     async deleteTicket(request: Request, response: Response) {
         await service.deleteTicket(request.user, request.params.id as string)
-        response.status(204)
+        response.status(204).end()
     }
 }
