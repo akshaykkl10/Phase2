@@ -5,11 +5,18 @@ import { ticketRoutes } from "./module/ticket/ticket.router.js";
 import { authRoutes } from "./module/auth/auth.router.js";
 import { errorHandler, notFoundError } from "./middleware/error.middleware.js";
 import { logger } from "./middleware/logger.middleware.js";
+import helmet from "helmet";
+import { apiLimit } from "./config/rateLimit.js";
 
 export const app = express();
 
+app.use(helmet())
 app.use(logger)
-app.use(express.json())
+app.use(apiLimit)
+app.use(express.json({
+  limit: "100kb",
+  strict: true
+}))
 app.get('/health', async (_request, response, next) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
