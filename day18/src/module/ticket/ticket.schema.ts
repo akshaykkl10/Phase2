@@ -12,7 +12,7 @@ export const createTicketSchema = z.object({
   title: z.string().trim().min(3).max(120),
   description: z.string().trim().min(10).max(5000),
   priority: z.nativeEnum(TicketPriority).default(TicketPriority.MEDIUM),
-  assignedToId: z.string().min(1).optional()
+  assigned_to_id: z.string().min(1).optional()
 });
 
 export const listTicketsQuerySchema = paginationQuerySchema.extend({
