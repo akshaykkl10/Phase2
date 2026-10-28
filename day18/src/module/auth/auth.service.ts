@@ -45,6 +45,7 @@ export class AuthService {
         const token = await generateToken(user.id, user.email, user.role)
         return {
             data: {
+                id: user.id,
                 name: user.name, 
                 email: user.email,
                 role: user.role
