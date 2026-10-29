@@ -11,11 +11,11 @@ export class TicketController {
     }
     async showTicketById(request: Request, response: Response) {
         const ticket = await service.showTicketById(request.user, request.params.id as string)
-        response.status(201).json({data: ticket})
+        response.status(200).json({data: ticket})
     }
     async listTickets(request: Request, response: Response) {
         const tickets = await service.listTickets(request.user, request.query as unknown as ListTicketsInput)
-        response.status(201).json(tickets)
+        response.status(200).json(tickets)
     }
     async updateTicket(request: Request, response: Response) {
         const ticket = await service.updateTicket(
@@ -23,7 +23,7 @@ export class TicketController {
             request.params.id as string,
             request.body as UpdateTicketsInput
         )
-        response.status(201).json({data: ticket})
+        response.status(200).json({data: ticket})
     }
     async deleteTicket(request: Request, response: Response) {
         await service.deleteTicket(request.user, request.params.id as string)

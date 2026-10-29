@@ -11,11 +11,11 @@ export class UserController {
     }
     async getUsers(request: Request, response: Response) {
         const data = await service.getUsers(request.query as ListUserInput)
-        response.status(202).json({data})
+        response.status(200).json({data})
     }
     async getUser(request: Request, response: Response) {
         const data = await service.getUser(request.params.id as string)
-        response.status(202).json({data})
+        response.status(200).json({data})
     }
     async deleteUser(request: Request, response: Response) {
         await service.deleteUser(request.params.id as string)
