@@ -22,7 +22,7 @@ export function errorHandler(
 ) {
     if (error instanceof ZodError) {
         const flattened = z.flattenError(error);
-       response.status(404).json({
+       response.status(422).json({
             error: {
                 code: "VALIDATION_ERROR",
                 message: flattened.fieldErrors
@@ -31,7 +31,7 @@ export function errorHandler(
     }
     if (error instanceof Error) {
         if(error.message == 'USER_EXISTS') {
-            response.status(404).json({
+            response.status(409).json({
                  error: {
                      code: "USER_EXISTS",
                      message: "The email is already registered."
@@ -40,7 +40,7 @@ export function errorHandler(
             next()
         }
         if(error.message == 'TOKEN_EXPIRED') {
-            response.status(404).json({
+            response.status(401).json({
                  error: {
                      code: "TOKEN_EXPIRED",
                      message: "Your Session Expired. Please login again."
@@ -49,7 +49,7 @@ export function errorHandler(
             next()
         }
         if(error.message == 'TOKEN_INVALID') {
-            response.status(404).json({
+            response.status(401).json({
                  error: {
                      code: "TOKEN_INVALID",
                      message: "Your token is invalid."
@@ -66,7 +66,7 @@ export function errorHandler(
             }); 
             next()
         }
-        response.status(404).json({
+        response.status(500).json({
             error: {
                 code: "UNKNOWN ERROR",
                 message: error.message
