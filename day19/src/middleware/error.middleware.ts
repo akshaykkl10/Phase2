@@ -28,6 +28,7 @@ export function errorHandler(
                 message: flattened.fieldErrors
             }
         }); 
+        return;
     }
     if (error instanceof Error) {
         if(error.message == 'USER_EXISTS') {
@@ -38,6 +39,17 @@ export function errorHandler(
                  }
             }); 
             next()
+            return;
+        }
+        if(error.message == 'TICKET_NOT_FOUND') {
+            response.status(409).json({
+                 error: {
+                     code: "TICKET_NOT_FOUND",
+                     message: "Ticket not found."
+                 }
+            }); 
+            next()
+            return;
         }
         if(error.message == 'TOKEN_EXPIRED') {
             response.status(401).json({
@@ -47,6 +59,7 @@ export function errorHandler(
                  }
             }); 
             next()
+            return;
         }
         if(error.message == 'TOKEN_INVALID') {
             response.status(401).json({
@@ -56,6 +69,7 @@ export function errorHandler(
                  }
             }); 
             next()
+            return;
         }
         if(error.message == 'FORBIDDEN') {
             response.status(403).json({
@@ -65,6 +79,7 @@ export function errorHandler(
                  }
             }); 
             next()
+            return;
         }
         response.status(500).json({
             error: {
