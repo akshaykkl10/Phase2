@@ -7,7 +7,6 @@ export const paginationQuerySchema = z.object({
 
 
 export const createTicketSchema = z.object({
-    created_by_id: z.string().trim(),
     category_id: z.string().trim(),
   title: z.string().trim().min(3).max(120),
   description: z.string().trim().min(10).max(5000),
