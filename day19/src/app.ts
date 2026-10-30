@@ -7,11 +7,14 @@ import { errorHandler, notFoundError } from "./middleware/error.middleware.js";
 import { logger } from "./middleware/logger.middleware.js";
 import helmet from "helmet";
 import { apiLimit } from "./config/rateLimit.js";
+import { requestId } from "./middleware/request-id.middleware.js";
 
 export const app = express();
 
 app.use(helmet())
+app.use(requestId)
 app.use(logger)
+
 app.use(apiLimit)
 app.use(express.json({
   limit: "100kb",
