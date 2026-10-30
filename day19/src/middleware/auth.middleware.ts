@@ -40,14 +40,14 @@ export async function authUser(request: Request, _response: Response, next: Next
             email: payload.email,
             role: payload.role
         };
-        return next();
+        next();
     }
     catch(error: unknown) {
         if(error instanceof Error) {
             const message = error.message === 'TOKEN_EXPIRED' ? 'TOKEN_EXPIRED' : 'TOKEN_INVALID';
             const err: any = new Error(message);
             err.status = 401;
-            return next(err); 
+            next(err); 
         }
     }
 }
