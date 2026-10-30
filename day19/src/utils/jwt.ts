@@ -15,6 +15,7 @@ export async function generateToken(id: string, email: string, role: string ) {
 export async function authTocken(token: string) {
     try {
         const {payload} = await jwtVerify(token, SECRET_KEY)
+        if(payload == undefined) throw new Error("TOKEN_ERROR")
         return payload
     } catch (error: unknown) {
         if (error instanceof Error) {
