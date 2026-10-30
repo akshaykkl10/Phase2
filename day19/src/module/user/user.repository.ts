@@ -1,5 +1,6 @@
 import { prisma } from "../../db/prisma.js"
 import type { Prisma, Role } from "../../generated/client.js"
+import {debug} from './user.router.js'
 
 type PaginationInput = {
   page: number;
@@ -39,9 +40,11 @@ const userInclude = {
 
 export class UserRepository {
     async register(input: Prisma.UsersUncheckedCreateInput) {
+        debug('Registering user')
         return prisma.users.create({data: input})
     }
     async getUser(email: string) {
+        debug('Fetching user')
         return prisma.users.findUnique({
             where: {
                 email
@@ -50,6 +53,7 @@ export class UserRepository {
         })
     }
     async getUsers(filters: UserFilters, pagination: PaginationInput) {
+        debug('Fetching users')
         const where = {
             ...(filters.role? {role: filters.role}: {})
         }
@@ -65,6 +69,7 @@ export class UserRepository {
         return{ users, total}
     }
     async deleteUser(email: string) {
+        debug('Deleting user')
         return prisma.users.delete({
             where: {email}
         })

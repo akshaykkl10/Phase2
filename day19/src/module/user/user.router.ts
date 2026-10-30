@@ -3,10 +3,13 @@ import { UserController } from "./user.controller.js";
 import { authUser, requireRole } from "../../middleware/auth.middleware.js";
 import { validate } from "../../middleware/validation.middleware.js";
 import { createUserSchema, listUserSchema, userIdParamSchema } from "./user.schemas.js";
+import createDebug from 'debug';
 
 export const userRoutes = Router();
 
 const controller = new UserController()
+
+export const debug = createDebug('route:users')
 
 userRoutes.use(authUser)
 userRoutes.use(requireRole)

@@ -2,6 +2,7 @@ import { Role } from "../../generated/enums.js";
 import { UserRepository } from "./user.repository.js";
 import { type CreateUserInput, type ListUserInput} from "./user.schemas.js";
 import { hashPassword, verifyPassword } from "../../utils/password.js";
+import {debug} from './user.router.js'
 
 
 type UserFilters = {
@@ -27,9 +28,11 @@ export class UserService {
     async register(body: CreateUserInput) {
         if(!body.role)body.role = Role.USER;
         if(await userExists(body.email)){
+            debug('User exists')
             throw new Error("USER_EXISTS")
         }
         body.password = await hashPassword(body.password)
+        debug('Sending data to user repository')
         return repository.register(body)
     }
     async getUsers(query: ListUserInput) {
@@ -41,7 +44,7 @@ export class UserService {
         }
         if(query.role) filters.role = query.role
         
-        
+        debug('Sending data to user repository')
         const {users, total} =  await repository.getUsers(filters, pagination)
         return {
             data: users,
@@ -54,9 +57,11 @@ export class UserService {
         }
     }
     async getUser(email: string) {
+        debug('Sending data to user repository')
         return repository.getUser(email)
     }
     async deleteUser(email: string) {
+        debug('Sending data to user repository')
         return repository.deleteUser(email)
     }
 }
