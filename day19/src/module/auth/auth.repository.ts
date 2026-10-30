@@ -1,5 +1,6 @@
 import { prisma } from "../../db/prisma.js";
 import type { Prisma, Role } from "../../generated/client.js";
+import {debug} from './auth.router.js';
 
 type PaginationInput = {
   page: number;
@@ -38,8 +39,8 @@ const userInclude = {
 
 
 export class AuthRepository {
-    
     async getUser(email: string) {
+        debug('Fetching user')
         return prisma.users.findUnique({
             where: {
                 email

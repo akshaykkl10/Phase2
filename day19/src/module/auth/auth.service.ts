@@ -2,6 +2,7 @@ import { Role } from "../../generated/client.js";
 import { AuthRepository } from "./auth.repository.js";
 import { verifyPassword } from "../../utils/password.js";
 import { authTocken, generateToken } from "../../utils/jwt.js";
+import {debug} from './auth.router.js'
 
 type UserFilters = {
     role?: Role
@@ -34,6 +35,7 @@ export class AuthService {
         if(!input.email || !input.password) {
             throw new Error("INVALID_CREDENTIALS")
         }
+        debug('Sending data to ticket repository')
         const user = await repository.getUser(input.email) 
         if(!user) {
             throw new Error("INVALID_USER")
@@ -55,7 +57,9 @@ export class AuthService {
     }
     async me(token: string) {
         if(!token) throw new Error("INVALID_CREDENTIAL");
+        debug('Authenticating Token')
         const payload = await authTocken(token.replace('Bearer ', '')) as TokenPayload
+        debug(`Payload created ${typeof payload}`)
         return {
             id: payload.id,
             email: payload.email,
