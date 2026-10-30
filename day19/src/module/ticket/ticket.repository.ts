@@ -1,5 +1,6 @@
 import type {  Prisma, TicketPriority, TicketStatus } from '../../generated/client.js';
 import { prisma } from '../../db/prisma.js'
+import {debug} from './ticket.router.js'
 
 type TicketFilters = {
   status?: TicketStatus;
@@ -35,6 +36,7 @@ const ticketInclude = {
 
 export class TicketRepository {
     async createTicket (ticket: Prisma.TicketUncheckedCreateInput) {
+        debug('Creating Ticket')
         return prisma.ticket.create({
             data: ticket,
             include: ticketInclude
@@ -42,6 +44,7 @@ export class TicketRepository {
     }
 
     async findById(id: string) {
+        debug('Finding Ticket')
         return prisma.ticket.findUnique({
         where: { id },
         include: ticketInclude
@@ -49,6 +52,7 @@ export class TicketRepository {
     }
     async findMany (filters: TicketFilters, pagination: PaginationInput) {
         
+        debug('Finding Tickets')
         const [item, total] = await Promise.all([
             prisma.ticket.findMany({
                 where: filters,
@@ -64,6 +68,7 @@ export class TicketRepository {
         return {item, total}
     }
     async update (id: string, data: Prisma.TicketUncheckedUpdateInput) {
+        debug('Updating Ticket')
         return prisma.ticket.update({
             where: {id},
             data,
@@ -71,6 +76,7 @@ export class TicketRepository {
         })
     }
     async delete (id: string) {
+        debug('Deleting Ticket')
         return prisma.ticket.delete({
             where: {id},
             include: ticketInclude

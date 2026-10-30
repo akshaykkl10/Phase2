@@ -3,10 +3,13 @@ import { TicketController } from "./ticket.controller.js";
 import { authUser } from "../../middleware/auth.middleware.js";
 import { validate } from "../../middleware/validation.middleware.js";
 import { createTicketSchema, listTicketsQuerySchema, ticketIdParamSchema, updateTicketSchema } from "./ticket.schema.js";
+import createDebug from 'debug';
 
 export const ticketRoutes = Router();
 
 const controller = new TicketController()
+
+export const debug = createDebug('route:tickets')
 
 ticketRoutes.use(authUser)
 ticketRoutes.post('/',validate({body: createTicketSchema}), controller.createTicket)

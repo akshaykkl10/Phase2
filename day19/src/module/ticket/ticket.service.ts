@@ -3,6 +3,7 @@ import { Role, TicketPriority, TicketStatus } from "../../generated/enums.js";
 import type { AuthUser } from "../../types.js";
 import { TicketRepository } from "./ticket.repository.js";
 import type { CreateTicketInput, ListTicketsInput, UpdateTicketsInput } from "./ticket.schema.js";
+import {debug} from './ticket.router.js'
 
 const repository = new TicketRepository()
 
@@ -24,6 +25,7 @@ function canViewTicket(user: AuthUser, ticket: Ticket) {
 
 export class TicketService {
     async createTicket(authUser: AuthUser, input: CreateTicketInput) {
+        debug('Sending data to ticket repository')
         return repository.createTicket({
             title: input.title,
             description: input.description,
@@ -33,11 +35,15 @@ export class TicketService {
         })
     }
     async showTicketById (authUser: AuthUser, ticketId: string) {
+        debug('Sending data to ticket repository')
         const ticket = await repository.findById(ticketId);
         if(!canViewTicket(authUser, ticket!)) {
+            debug('Ticket forbidden')
+
             throw new Error('FORBIDDEN')
         }
         if (!ticket) {
+            debug('Ticket notFound')
             throw new Error('TICKET_NOT_FOUND');
         }
         return ticket;
@@ -79,6 +85,7 @@ export class TicketService {
 
         const page = query.page && Number(query.page) > 0 ? Number(query.page) : 1;
         const limit = query.limit && Number(query.limit) > 0 ? Number(query.limit) : 10;
+        debug('Sending data to ticket repository')
         const { item, total } = await repository.findMany(filters, {
             page,
             limit
@@ -100,11 +107,13 @@ export class TicketService {
         if (input.description !== undefined) updateData.description = input.description;
 
         if (input.priority !== undefined) updateData.priority = input.priority;
-        const ticket = await this.showTicketById(authUser, ticketId)
+        await this.showTicketById(authUser, ticketId)
+        debug('Sending data to ticket repository')
         return repository.update(ticketId,updateData)
     }
     async deleteTicket (authUser: AuthUser, ticketId: string) {
-        const ticket = await this.showTicketById(authUser, ticketId)
+        await this.showTicketById(authUser, ticketId)
+        debug('Sending data to ticket repository')
         return repository.delete(ticketId)
     }
 }
