@@ -1,0 +1,17 @@
+.project-grid, .issue-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+    padding: 0.4rem;
+    @media (max-width: 942px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 542px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.project-card {
+    border: 1px solid var(--border);
+    box-shadow: 1px 1px 1px var(--accent-border);
+}
