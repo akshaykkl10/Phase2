@@ -1,12 +1,19 @@
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 type ProjectNameProp = {
     title: string;
 }
 
 export default function ProjectCard({title}: ProjectNameProp) {
     return (
-        <div className="project-card">
-            <h4>{title}</h4>
-            
-        </div>
+        <Card>
+            <CardHeader>
+                <CardTitle>{title}</CardTitle>
+            </CardHeader>
+        </Card>
     )
 }

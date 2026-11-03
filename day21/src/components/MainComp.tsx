@@ -21,11 +21,11 @@ export default function Main() {
             </section>
              <section id='issues'>
                 <div className="issue-heading">
-                    <h2>Projects</h2>
+                    <h2>Issues</h2>
                 </div>
                 <div className="issue-grid">
                     {issues.map(issue => (
-                        <IssueCard title={issue.title} level={issue.level}/>
+                        <IssueCard issue={issue}/>
                     ))}
                 </div>
             </section>
