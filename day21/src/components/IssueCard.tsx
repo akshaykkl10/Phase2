@@ -1,4 +1,6 @@
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+
 import {
   Card,
   CardContent,
@@ -39,7 +41,10 @@ export default function IssueCard({issue}: IssueProp) {
 
     const dueDate = new Date(`${issue.dueDate}T00:00:00`);
     const isOverDue = dueDate < today && issue.status != "Done";
-
+    const initial = issue.assignee
+    .split(' ')
+    .reduce((init, word) => init + (word[0] || ''), '')
+    .toUpperCase();
     return (
         <Card>
 
@@ -49,7 +54,18 @@ export default function IssueCard({issue}: IssueProp) {
             </CardHeader>
             <CardContent>
                 <p>Project: {issue.project} </p>
-                <p>Assignee: {issue.assignee} </p>
+                <div className="flex flex-row gap-1 justify-center items-center gap-1">
+                    <span>Assignee:</span>
+                   <div className="relative inline-flex items-center group w-fit cursor-pointer">
+                        <Avatar>
+                            <AvatarFallback>{initial}</AvatarFallback>
+                        </Avatar>
+                        
+                        <span className="absolute left-12 z-50 bg-popover text-popover-foreground text-xs px-2 py-1 rounded-md shadow-md border opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                            {issue.assignee}
+                        </span>
+                    </div>
+                </div>
             </CardContent>
             <CardFooter className="flex flex-row flex-wrap items-center justify-center">
                 <Badge variant='secondary' className={priorityClass} >{issue.priority} </Badge>
