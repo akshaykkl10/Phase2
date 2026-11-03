@@ -1,5 +1,5 @@
 import viteLogo from '../assets/vite.svg'
-import Avatar from "./ProfileBadge"
+import ProfieAvatar from "./ProfileAvatar"
 import '../styles/header.css'
 export default function Header() {
     return (
@@ -12,7 +12,7 @@ export default function Header() {
                     <li>About</li>
                 </ul>
             </nav>
-            <Avatar name='AK' />
+            <ProfieAvatar name='Akshay Kumar P' />
         </header>
     )
 }
