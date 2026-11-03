@@ -1,5 +1,5 @@
 import '../styles/main.css';
-import { issues, projects } from "../projects";
+import { issues, projects } from "../data";
 import ProjectCard from "./ProjectCard";
 import IssueCard from './IssueCard';
 
