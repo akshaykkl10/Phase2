@@ -1,6 +1,6 @@
 import '../styles/main.css';
-import { issues, projects } from "../data";
-import ProjectCard from "./ProjectCard";
+import { issues } from "../data";
+// import ProjectCard from "./ProjectCard";
 import IssueCard from './IssueCard';
 import EmptyState from './EmptyState';
 
@@ -10,7 +10,7 @@ export default function Main() {
             <section>
                 <h2>Welcome !</h2>
             </section>
-            <section id='projects'>
+            {/* <section id='projects'>
                 {projects.length ? (
                     <>                
                         <div className="project-heading">
@@ -25,7 +25,7 @@ export default function Main() {
                 ):(
                     <EmptyState title='No Projects' description='You have no Projects.'/>
                 )}
-            </section>
+            </section> */}
             {issues.length ? (
                 <>
                     <section id='issues'>
