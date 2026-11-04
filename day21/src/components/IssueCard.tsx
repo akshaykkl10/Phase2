@@ -46,7 +46,7 @@ export default function IssueCard({issue}: IssueProp) {
     .reduce((init, word) => init + (word[0] || ''), '')
     .toUpperCase();
     return (
-        <Card>
+        <Card id={`issue-${issue.id}`}>
 
             <CardHeader>
                 <CardTitle>{issue.title}</CardTitle>
