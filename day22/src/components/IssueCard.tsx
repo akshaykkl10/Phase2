@@ -44,6 +44,7 @@ export default function IssueCard({issue}: IssueProp) {
     const initial = issue.assignee
     .split(' ')
     .reduce((init, word) => init + (word[0] || ''), '')
+    .slice(0,3)
     .toUpperCase();
     return (
         <Card id={`issue-${issue.id}`}>
