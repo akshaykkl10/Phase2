@@ -1,10 +1,21 @@
 import '../styles/main.css';
-import { issues } from "../data";
+import { issues as initIssues }  from "../data";
 // import ProjectCard from "./ProjectCard";
 import IssueCard from './IssueCard';
 import EmptyState from './EmptyState';
+import { useState } from 'react';
+import { filterIssue } from '@/utils';
+import type { Issue, IssuePriority, IssueStatus } from '@/types';
+import FilterInputs from './FilterOptions';
 
 export default function Main() {
+    const [search, setSearch] = useState('');
+    const [status, setStatus] = useState('');
+    const [priority, setPriority] = useState('');
+    const [isSortStatus, setSortStatus] = useState(false);
+    const [initialIssues, setState] = useState<Issue[]>(initIssues);
+    const renderissues = filterIssue(search, status as IssueStatus, priority as IssuePriority, isSortStatus as boolean, initIssues);
+    console.log('phantom');
     return (
         <main>
             <section>
@@ -26,15 +37,25 @@ export default function Main() {
                     <EmptyState title='No Projects' description='You have no Projects.'/>
                 )}
             </section> */}
-            {issues.length ? (
+
+            {initialIssues.length ? (
                 <>
+                
                     <section id='issues'>
                         <div className="issue-heading">
                             <h2>Issues</h2>
+                            <div className='filter-inputs'>
+                                <FilterInputs 
+                                    search={search} setSearch={setSearch} 
+                                    status={status} setStatus={setStatus} 
+                                    priority={priority} setPriority={setPriority}
+                                    isSortStatus={isSortStatus} setSortStatus={setSortStatus}
+                                />
+                            </div>
                         </div>
                         <div className="issue-grid">
-                            {issues.map(issue => (
-                                <IssueCard issue={issue}/>
+                            {renderissues.map(renderissue => (
+                                <IssueCard issue={renderissue}/>
                             ))}
                         </div>
                     </section>
