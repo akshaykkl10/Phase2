@@ -1,0 +1,18 @@
+.appshell {
+    display: grid;
+    gap: 1rem;
+    grid-template-areas:'header header header'
+    'sidebar main main';
+}
+
+.header-div{
+    grid-area: header;
+}
+
+.sidebar-div {
+    grid-area: sidebar;
+}
+
+.main-div {
+    grid-area: main;
+}
