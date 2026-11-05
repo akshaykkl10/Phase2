@@ -1,5 +1,7 @@
 import type React from "react";
 import type { Issue, IssuePriority } from "./types";
+import { createIssueSchema } from "./zod/issueSchema";
+import { ZodError } from "zod";
 
 export function filterIssue(searchInput: string, statusFilter: string, priorityFilter: string, isSortStatus: boolean, issues: Issue[]) {
     const filtered =  issues.filter(issue => {
@@ -16,7 +18,7 @@ export function filterIssue(searchInput: string, statusFilter: string, priorityF
     return filtered
 }
 
-export function handleSubmit(event: React.FormEvent<HTMLFormElement>, setState:React.Dispatch<React.SetStateAction<Issue[]>>, issues: Issue[], setOpen: (open: boolean)=> void) {
+export function handleSubmit(event: React.FormEvent<HTMLFormElement>, setState:React.Dispatch<React.SetStateAction<Issue[]>>, issues: Issue[], setOpen: (open: boolean)=> void, setErrors: (errors: Record<string, string[]>) => void) {
     event.preventDefault();
     const form = event.currentTarget;
     const formdata = new FormData(form);
@@ -27,7 +29,7 @@ export function handleSubmit(event: React.FormEvent<HTMLFormElement>, setState:R
     const assignee = formdata.get('assignee') as string;
     const dueDate = formdata.get('duedate') as string;
 
-    if(!title?.trim() || !description?.trim() || !project?.trim() || !priority?.trim() || !assignee?.trim() || !dueDate?.trim()) return
+    // if(!title?.trim() || !description?.trim() || !project?.trim() || !priority?.trim() || !assignee?.trim() || !dueDate?.trim()) return
     const newIssue: Issue = {
         id:(Math.max(0, ...issues.map(issue => {
             return issue.id
@@ -40,10 +42,21 @@ export function handleSubmit(event: React.FormEvent<HTMLFormElement>, setState:R
         assignee,
         dueDate
     };
-    setState((prevIssues: Issue[]) => [
-        ...prevIssues,
-        newIssue
-    ]);
-    form.reset();
-    if(setOpen)setOpen(false);
+    try {
+        console.log(newIssue)
+        const validatedIssue = createIssueSchema.parse(newIssue)
+        setState((prevIssues: Issue[]) => [
+            ...prevIssues,
+            validatedIssue
+        ]);
+        form.reset();
+        if(setOpen)setOpen(false);
+
+    } catch (error) {
+        if(error instanceof ZodError) {
+            console.log(error.flatten().fieldErrors)
+            setErrors(error.flatten().fieldErrors)
+        }
+    }
+
 }
