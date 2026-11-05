@@ -7,15 +7,15 @@ import { useState } from 'react';
 import { filterIssue } from '@/utils';
 import type { Issue, IssuePriority, IssueStatus } from '@/types';
 import FilterInputs from './FilterOptions';
+import AddIssue from './AddIssueDialogue';
 
 export default function Main() {
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState('');
     const [priority, setPriority] = useState('');
     const [isSortStatus, setSortStatus] = useState(false);
-    const [initialIssues, setState] = useState<Issue[]>(initIssues);
-    const renderissues = filterIssue(search, status as IssueStatus, priority as IssuePriority, isSortStatus as boolean, initIssues);
-    console.log('phantom');
+    const [issues, setState] = useState<Issue[]>(initIssues);
+    const renderissues = filterIssue(search, status as IssueStatus, priority as IssuePriority, isSortStatus as boolean, issues);
     return (
         <main>
             <section>
@@ -38,12 +38,15 @@ export default function Main() {
                 )}
             </section> */}
 
-            {initialIssues.length ? (
+            {issues.length ? (
                 <>
                 
                     <section id='issues'>
                         <div className="issue-heading">
                             <h2>Issues</h2>
+                            <div className='add-issue-div'>
+                                <AddIssue setState={setState} issues={issues}/>
+                            </div>
                             <div className='filter-inputs'>
                                 <FilterInputs 
                                     search={search} setSearch={setSearch} 
@@ -55,7 +58,7 @@ export default function Main() {
                         </div>
                         <div className="issue-grid">
                             {renderissues.map(renderissue => (
-                                <IssueCard issue={renderissue}/>
+                                <IssueCard issue={renderissue} key={renderissue.id}/>
                             ))}
                         </div>
                     </section>
