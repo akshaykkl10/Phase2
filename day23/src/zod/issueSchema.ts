@@ -47,9 +47,11 @@ export const createIssueSchema = z.object({
     }).refine((dateStr) => {
         const date = new Date(dateStr);
         const today = new Date();
+        const nextyear = new Date(today);
+        nextyear.setFullYear(today.getFullYear() + 1);
         today.setHours(0, 0, 0, 0)
-        return date >= today;
+        return date >= today && date <= nextyear;
     }, {
-        message: "Due Date must be today or in the future",
+        message: "Due Date must be in 1 year from today.",
     })
 })
