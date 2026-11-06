@@ -19,7 +19,7 @@ export default function AddIssue({setState, issues}: AddIssueProp) {
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     return(
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger>Add Issue</DialogTrigger>
+            <DialogTrigger className="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5 rounded-sm">Add Issue</DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                 <DialogTitle>Enter Issue details</DialogTitle>
