@@ -24,7 +24,7 @@ export default function AddIssue({setState, issues}: AddIssueProp) {
                 <DialogHeader>
                 <DialogTitle>Enter Issue details</DialogTitle>
                 <form onSubmit={(event) => {
-                    handleSubmit(event, setState, issues, setOpen, setErrors)
+                    handleSubmit({event, setState, issues, setOpen, setErrors})
                     
                 }} id="add-issue-form">
                     <label htmlFor="title-input">Title</label>
