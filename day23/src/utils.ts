@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Issue, IssuePriority } from "./types";
+import type { Issue, IssuePriority, IssueStatus } from "./types";
 import { createIssueSchema } from "./zod/issueSchema";
 import { ZodError } from "zod";
 
@@ -34,6 +34,7 @@ export function handleSubmit({event, setState, issues, issueId = -1,  setOpen, s
     const formdata = new FormData(form);
     const title = formdata.get('title') as string;
     const description = formdata.get('description') as string;
+    const status = formdata.get('status') as IssueStatus;
     const project = formdata.get('project') as string;
     const priority = formdata.get('priority') as IssuePriority;
     const assignee = formdata.get('assignee') as string;
@@ -47,7 +48,7 @@ export function handleSubmit({event, setState, issues, issueId = -1,  setOpen, s
         })) + 1): issues.find(issue => issue.id == issueId)?.id as number,
         title,
         description,
-        status: 'Todo',
+        status: issueId==-1?'Todo': status,
         priority,
         project,
         assignee,
