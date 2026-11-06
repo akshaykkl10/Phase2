@@ -10,10 +10,14 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import type { Issue } from "@/types";
+import EditIssue from "./EditIssueDialogue ";
+import type React from "react";
 
 
 type IssueProp = {
     issue: Issue
+    setState: React.Dispatch<React.SetStateAction<Issue[]>>;
+    issues: Issue[];
 }
 
 const colourStyles: Record<string, string> = {
@@ -24,7 +28,7 @@ const colourStyles: Record<string, string> = {
     gray: "bg-gray-100 text-gray-700 dark:bg-gray-950 dark:text-gray-300"
 };
 
-export default function IssueCard({issue}: IssueProp) {
+export default function IssueCard({issue, setState, issues}: IssueProp) {
     let statusClass: string = colourStyles['gray'];
     let priorityClass: string = colourStyles['gray'];
 
@@ -55,16 +59,19 @@ export default function IssueCard({issue}: IssueProp) {
             </CardHeader>
             <CardContent>
                 <p>Project: {issue.project} </p>
-                <div className="flex flex-row gap-1 justify-center items-center gap-1">
+                <div className="flex flex-col gap-1 justify-center items-center gap-1">
+                   <div>
                     <span>Assignee:</span>
-                   <div className="relative inline-flex items-center group w-fit cursor-pointer">
-                        <Avatar>
+                        <Avatar className="relative inline-flex items-center group h-10 w-10 rounded-full cursor-pointer ">
                             <AvatarFallback>{initial}</AvatarFallback>
+                            <span className="absolute left-12 z-50 bg-popover text-popover-foreground text-xs px-2 py-1 rounded-md shadow-md border opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                                {issue.assignee}
+                            </span>
                         </Avatar>
                         
-                        <span className="absolute left-12 z-50 bg-popover text-popover-foreground text-xs px-2 py-1 rounded-md shadow-md border opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                            {issue.assignee}
-                        </span>
+                    </div>
+                    <div id="edit-issue-div">
+                        <EditIssue setState={setState} issues={issues} issue={issue}/>
                     </div>
                 </div>
             </CardContent>

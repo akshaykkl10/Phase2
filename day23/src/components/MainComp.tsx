@@ -58,7 +58,7 @@ export default function Main() {
                         </div>
                         <div className="issue-grid">
                             {renderissues.map(renderissue => (
-                                <IssueCard issue={renderissue} key={renderissue.id}/>
+                                <IssueCard issue={renderissue} key={renderissue.id} setState={setState} issues={issues}/>
                             ))}
                         </div>
                     </section>
