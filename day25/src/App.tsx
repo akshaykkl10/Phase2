@@ -4,13 +4,16 @@ import AppLayout from './layout/AppLayout'
 import Dashboard from './components/DashBoard'
 import NotFoundPage from './pages/NotFoundPage'
 import AuthLayout from './layout/AuthLayout'
+import LoginCard from './components/LoginCard'
+import RegisterCard from './components/RegisterCard'
 
 function App() {
 
   return (
     <Routes>
       <Route element={<AuthLayout />}>
-        <Route path='/login' element={}/>
+        <Route path='/login' element={<LoginCard/>}/>
+        <Route path='/register' element={<RegisterCard/>}/>
       </Route>
       <Route path='/' element={<AppLayout />}>
         <Route index element={ <Dashboard/ >}/>
