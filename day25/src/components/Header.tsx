@@ -5,7 +5,7 @@ export default function Header() {
     return (
         <header className="header">
             <img src={viteLogo} alt="Profile Badge" />
-            <h1>React App</h1>
+            <h1>Issue Manager</h1>
             <nav>
                 <ul id='header-links'>
                     <li>Home</li>
