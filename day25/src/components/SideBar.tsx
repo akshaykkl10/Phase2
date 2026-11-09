@@ -1,11 +1,12 @@
+import { NavLink } from 'react-router'
 import '../styles/sidebar.css'
 
 export default function SideBar() {
     return (
         <div className="sidebar">
             <ul>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#issues">Issues</a></li>
+                <NavLink to={'/projects'}>Projects</NavLink>
+                <NavLink to={'/issues'}>Issues</NavLink>
             </ul>
         </div>
     )
