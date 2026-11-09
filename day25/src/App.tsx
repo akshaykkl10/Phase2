@@ -8,6 +8,7 @@ import LoginCard from './components/LoginCard'
 import RegisterCard from './components/RegisterCard'
 import Projects from './pages/ProjectsPage'
 import Issues from './pages/IssuesPage'
+import IssueDetail from './components/IssueDetail'
 
 function App() {
 
@@ -21,7 +22,8 @@ function App() {
         <Route index element={ <Dashboard/ >}/>
         <Route path='/dashboard' element={ <Dashboard/ >}/>
         <Route path='/projects' element={ <Projects/ >}/>
-        <Route path='/issues' element={ <Issues/ >}/>
+        <Route path='issues' element={ <Issues/ >} />
+        <Route path='/issues/:id' element={<IssueDetail />}/>
       </Route>
       <Route path='*' element={<NotFoundPage />}/>
     </Routes>

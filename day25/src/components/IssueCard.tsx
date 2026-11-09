@@ -12,6 +12,7 @@ import {
 import type { Issue } from "@/types";
 import EditIssue from "./EditIssueDialogue ";
 import type React from "react";
+import { Link } from "react-router";
 
 
 type IssueProp = {
@@ -81,6 +82,7 @@ export default function IssueCard({issue, setState, issues}: IssueProp) {
                 {isOverDue && (
                     <Badge variant={'default'} className={colourStyles['red']}>OverDue</Badge>
                 )}
+                <Link to={`/issues/${issue.id}`}>Go to Issue Details</Link>
             </CardFooter>
         </Card>
     )
