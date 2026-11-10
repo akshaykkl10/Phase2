@@ -3,7 +3,7 @@ export type IssuePriority = 'Low' | 'Medium' | 'High';
 export type IssueStatus = 'Todo' | 'In Progress' | 'Done';
 
 export type Issue = {
-  id: number;
+  id: string;
   title: string;
   description: string;
   project: string;

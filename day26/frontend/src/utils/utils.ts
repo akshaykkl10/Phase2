@@ -21,14 +21,13 @@ export function filterIssue(searchInput: string, statusFilter: string, priorityF
 interface Submission {
     event: React.FormEvent<HTMLFormElement>;
     setState:React.Dispatch<React.SetStateAction<Issue[]>>;
-    issues: Issue[];
-    issueId?: number;
+    issueId?: string;
     setOpen: (open: boolean)=> void;
     setErrors: (errors: Record<string, string[]>) => void
 }
 
 
-export function handleSubmit({event, setState, issues, issueId = -1,  setOpen, setErrors}: Submission) {
+export function handleSubmit({event, setState, issueId = 'None',  setOpen, setErrors}: Submission) {
     event.preventDefault();
     const form = event.currentTarget;
     const formdata = new FormData(form);
@@ -43,12 +42,10 @@ export function handleSubmit({event, setState, issues, issueId = -1,  setOpen, s
     // if(!title?.trim() || !description?.trim() || !project?.trim() || !priority?.trim() || !assignee?.trim() || !dueDate?.trim()) return
     
     const newIssue: Issue = {
-        id:issueId==-1?(Math.max(0, ...issues.map(issue => {
-            return issue.id
-        })) + 1): issues.find(issue => issue.id == issueId)?.id as number,
+        id:issueId=='None'?crypto.randomUUID():issueId,
         title,
         description,
-        status: issueId==-1?'Todo': status,
+        status: issueId=='None'?'Todo': status,
         priority,
         project,
         assignee,
@@ -57,7 +54,7 @@ export function handleSubmit({event, setState, issues, issueId = -1,  setOpen, s
     try {
         console.log(newIssue)
         const validatedIssue = createIssueSchema.parse(newIssue)
-        if(issueId == -1){
+        if(issueId == 'None'){
             setState((prevIssues: Issue[]) => [
                 ...prevIssues,
                 validatedIssue

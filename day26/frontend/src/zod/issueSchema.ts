@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const createIssueSchema = z.object({
-    id: z.coerce.number().min(1),
+    id: z.string(),
     title: z.string({
         message: "Title is required."
     }).trim().min(1, {

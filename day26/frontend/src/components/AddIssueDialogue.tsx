@@ -14,7 +14,7 @@ interface AddIssueProp {
     setState: React.Dispatch<React.SetStateAction<Issue[]>>;
     issues: Issue[]
 }
-export default function AddIssue({setState, issues}: AddIssueProp) {
+export default function AddIssue({setState}: AddIssueProp) {
     const [open, setOpen] = useState(false)
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     return(
@@ -24,7 +24,7 @@ export default function AddIssue({setState, issues}: AddIssueProp) {
                 <DialogHeader>
                 <DialogTitle>Enter Issue details</DialogTitle>
                 <form onSubmit={(event) => {
-                    handleSubmit({event, setState, issues, setOpen, setErrors})
+                    handleSubmit({event, setState, setOpen, setErrors})
                     
                 }} id="add-issue-form">
                     <label htmlFor="title-input">Title</label>
