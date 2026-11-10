@@ -8,9 +8,14 @@ import { logger } from "./middleware/logger.middleware.js";
 import helmet from "helmet";
 import { apiLimit } from "./config/rateLimit.js";
 import { requestId } from "./middleware/request-id.middleware.js";
+import cors from 'cors';
 
 export const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}))
 app.use(helmet())
 app.use(requestId)
 app.use(logger)
