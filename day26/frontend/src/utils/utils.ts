@@ -1,6 +1,6 @@
 import type React from "react";
-import type { Issue, IssuePriority, IssueStatus } from "./types";
-import { createIssueSchema } from "./zod/issueSchema";
+import type { Issue, IssuePriority, IssueStatus } from "../types";
+import { createIssueSchema } from "../zod/issueSchema";
 import { ZodError } from "zod";
 
 export function filterIssue(searchInput: string, statusFilter: string, priorityFilter: string, isSortStatus: boolean, issues: Issue[]) {
