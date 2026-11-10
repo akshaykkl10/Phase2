@@ -1,5 +1,4 @@
 import '../styles/main.css';
-import { issues as initIssues }  from "../data";
 // import ProjectCard from "./ProjectCard";
 import IssueCard from '../components/IssueCard';
 import EmptyState from '../components/EmptyState';
@@ -8,6 +7,9 @@ import { filterIssue } from '@/utils/utils';
 import type { Issue, IssuePriority, IssueStatus } from '@/types';
 import FilterInputs from '../components/FilterOptions';
 import AddIssue from '../components/AddIssueDialogue';
+import { getIssues } from '@/utils/issueutils';
+
+const initIssues = await getIssues();
 
 export default function Issues() {
     const [search, setSearch] = useState('');

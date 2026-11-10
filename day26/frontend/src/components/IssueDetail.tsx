@@ -1,10 +1,12 @@
-import { issues } from "@/data";
+import { getIssues } from "@/utils/issueutils";
 import { Link, useParams } from "react-router";
+
+const issues = await getIssues()
 
 export default function IssueDetail() {
     const { id } = useParams();
 
-    const issue = issues.find(issue => issue.id == Number(id))
+    const issue = issues.find(issue => issue.id == id)
     if (issue) {
         return (
             <>
