@@ -5,7 +5,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { handleSubmit } from "../utils";
+import { handleSubmit } from "@/utils/utils";
 import type { Issue } from "@/types";
 import type React from "react";
 import { useState } from "react";

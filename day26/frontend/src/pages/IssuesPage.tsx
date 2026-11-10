@@ -4,7 +4,7 @@ import { issues as initIssues }  from "../data";
 import IssueCard from '../components/IssueCard';
 import EmptyState from '../components/EmptyState';
 import { useState } from 'react';
-import { filterIssue } from '@/utils';
+import { filterIssue } from '@/utils/utils';
 import type { Issue, IssuePriority, IssueStatus } from '@/types';
 import FilterInputs from '../components/FilterOptions';
 import AddIssue from '../components/AddIssueDialogue';
