@@ -13,7 +13,7 @@ type UserFilters = {
 
 
 const userInclude = {
-    created_tickets: {
+    created_issues: {
         select: {
             title: true,
             description: true,
@@ -22,7 +22,7 @@ const userInclude = {
         }
     },
 
-    assigned_tickets: {
+    assigned_issues: {
         select: {
             title: true,
             description: true,
@@ -30,12 +30,6 @@ const userInclude = {
             priority: true
         }
     },
-
-    comments: {
-        select: {
-            body: true,
-        }
-    }
 } satisfies Prisma.UsersInclude
 
 export class UserRepository {

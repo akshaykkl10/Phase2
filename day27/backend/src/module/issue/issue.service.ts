@@ -1,60 +1,61 @@
-import { Prisma, type Ticket } from "../../generated/client.js";
-import { Role, TicketPriority, TicketStatus } from "../../generated/enums.js";
+import { Prisma, type Issue } from "../../generated/client.js";
+import { Role, IssuePriority, IssueStatus } from "../../generated/enums.js";
 import type { AuthUser } from "../../types.js";
-import { TicketRepository } from "./ticket.repository.js";
-import type { CreateTicketInput, ListTicketsInput, UpdateTicketsInput } from "./ticket.schema.js";
-import {debug} from './ticket.router.js'
+import { IssueRepository } from "./issue.repository.js";
+import type { CreateIssueInput, ListIssuesInput, UpdateIssuesInput } from "./issue.schema.js";
+import {debug} from './issue.router.js'
 
-const repository = new TicketRepository()
+const repository = new IssueRepository()
 
-function canViewTicket(user: AuthUser, ticket: Ticket) {
+function canViewIssue(user: AuthUser, issue: Issue) {
     switch (user.role) {
         case "ADMIN":
             return true;
 
         case "AGENT":
-            return user.id == ticket.assigned_to_id || user.id == ticket.created_by_id            
+            return user.id == issue.assigned_to_id || user.id == issue.created_by_id            
 
         case "USER":
-            return user.id == ticket.created_by_id            
+            return user.id == issue.created_by_id            
                 
         default:
             return false;
     }
 }
 
-export class TicketService {
-    async createTicket(authUser: AuthUser, input: CreateTicketInput) {
-        debug('Sending data to ticket repository')
-        return repository.createTicket({
+export class IssueService {
+    async createIssue(authUser: AuthUser, input: CreateIssueInput) {
+        debug('Sending data to issue repository')
+        return repository.createIssue({
             title: input.title,
             description: input.description,
+            project_id: input.project,
             priority: input.priority,
-            category_id: input.category_id,
             created_by_id: authUser.id
         })
     }
-    async showTicketById (authUser: AuthUser, ticketId: string) {
-        debug('Sending data to ticket repository')
-        const ticket = await repository.findById(ticketId);
-        if(!canViewTicket(authUser, ticket!)) {
-            debug('Ticket forbidden')
+    async showIssueById (authUser: AuthUser, issueId: string) {
+        debug('Sending data to issue repository')
+        const issue = await repository.findById(issueId);
+        if(!canViewIssue(authUser, issue!)) {
+            debug('Issue forbidden')
 
             throw new Error('FORBIDDEN')
         }
-        if (!ticket) {
-            debug('Ticket notFound')
+        if (!issue) {
+            debug('Issue notFound')
             throw new Error('TICKET_NOT_FOUND');
         }
-        return ticket;
+        return issue;
     }
 
-    async listTickets(authUser: AuthUser, query: ListTicketsInput) {
+    async listIssues(authUser: AuthUser, query: ListIssuesInput) {
         const filters: Partial<{
-            status: TicketStatus;
-            priority: TicketPriority;
+            status: IssueStatus;
+            priority: IssuePriority;
             created_by_id: string;
             assigned_to_id: string;
+            project_id: string
         }> = {};
 
         if (query.status) {
@@ -63,6 +64,11 @@ export class TicketService {
         
         if (query.priority) {
             filters.priority = query.priority;
+        }
+
+        if (query.project) {
+
+            filters.project = query.project;
         }
 
         if(authUser.role == Role.USER) {
@@ -85,7 +91,7 @@ export class TicketService {
 
         const page = query.page && Number(query.page) > 0 ? Number(query.page) : 1;
         const limit = query.limit && Number(query.limit) > 0 ? Number(query.limit) : 10;
-        debug('Sending data to ticket repository')
+        debug('Sending data to issue repository')
         const { item, total } = await repository.findMany(filters, {
             page,
             limit
@@ -100,20 +106,25 @@ export class TicketService {
             }
         }
     }
-    async updateTicket(authUser: AuthUser, ticketId: string, input: UpdateTicketsInput) {
-        const updateData: Prisma.TicketUncheckedUpdateInput= {}
+    async updateIssue(authUser: AuthUser, issueId: string, input: UpdateIssuesInput) {
+        const updateData: Prisma.IssueUncheckedUpdateInput= {}
         if (input.title !== undefined) updateData.title = input.title;
 
         if (input.description !== undefined) updateData.description = input.description;
 
         if (input.priority !== undefined) updateData.priority = input.priority;
-        await this.showTicketById(authUser, ticketId)
-        debug('Sending data to ticket repository')
-        return repository.update(ticketId,updateData)
+        if (input.project !== undefined){
+            
+            updateData.project_id = input.project;
+
+        }
+        await this.showIssueById(authUser, issueId)
+        debug('Sending data to issue repository')
+        return repository.update(issueId,updateData)
     }
-    async deleteTicket (authUser: AuthUser, ticketId: string) {
-        await this.showTicketById(authUser, ticketId)
-        debug('Sending data to ticket repository')
-        return repository.delete(ticketId)
+    async deleteIssue (authUser: AuthUser, issueId: string) {
+        await this.showIssueById(authUser, issueId)
+        debug('Sending data to issue repository')
+        return repository.delete(issueId)
     }
 }

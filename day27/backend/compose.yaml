@@ -1,22 +1,22 @@
 services:
   db:
     image: postgres:17-alpine
-    container_name: ticket-db
+    container_name: issues-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ticketflow
-      POSTGRES_PASSWORD: ticketflow@123
-      POSTGRES_DB: ticketflow
+      POSTGRES_USER: issues
+      POSTGRES_PASSWORD: issues@123
+      POSTGRES_DB: issues
     ports:
-      - "127.0.0.1:5433:5432"
+      - "127.0.0.1:5434:5432"
     volumes: 
-    - ticketflow_postgres_data:/var/lib/postgresql/data
+    - issues_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ticketflow -d ticketflow"]
+      test: ["CMD-SHELL", "pg_isready -U issues -d issues"]
       interval: 5s
       timeout: 3s
       retries: 10
       start_period: 5s
 
 volumes:
-  ticketflow_postgres_data:
+  issues_postgres_data:

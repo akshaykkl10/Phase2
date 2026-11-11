@@ -35,7 +35,7 @@ export class AuthService {
         if(!input.email || !input.password) {
             throw new Error("INVALID_CREDENTIALS")
         }
-        debug('Sending data to ticket repository')
+        debug('Sending data to auth repository')
         const user = await repository.getUser(input.email) 
         if(!user) {
             throw new Error("INVALID_USER")

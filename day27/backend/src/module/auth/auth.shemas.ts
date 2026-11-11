@@ -10,7 +10,7 @@ export const paginationQuerySchema = z.object({
 
 export const loginSchema = z.object({
   email: z.string().trim().min(1),
-    password: z.string().trim().min(8)
+  password: z.string().trim().min(8)
 })
 
 const listUserSchema = z.object({

@@ -1,7 +1,7 @@
 import express from "express"
 import { prisma } from "./db/prisma.js";
 import { userRoutes } from "./module/user/user.router.js";
-import { ticketRoutes } from "./module/ticket/ticket.router.js";
+import { issueRoutes } from "./module/issue/issue.router.js";
 import { authRoutes } from "./module/auth/auth.router.js";
 import { errorHandler, notFoundError } from "./middleware/error.middleware.js";
 import { logger } from "./middleware/logger.middleware.js";
@@ -9,6 +9,7 @@ import helmet from "helmet";
 import { apiLimit } from "./config/rateLimit.js";
 import { requestId } from "./middleware/request-id.middleware.js";
 import cors from 'cors';
+import { projectRoutes } from "./module/project/project.router.js";
 
 export const app = express();
 
@@ -38,7 +39,8 @@ app.get('/health', async (_request, response, next) => {
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/tickets', ticketRoutes);
+app.use('/api/issues', issueRoutes);
+app.use('/api/projects', projectRoutes);
 
 app.use(notFoundError)
 app.use(errorHandler)
