@@ -3,30 +3,16 @@ const API_ADMIN_TOKEN = import.meta.env.VITE_ADMIN_TOKEN;
 
 if(!API_BASE_URL) throw new Error('VITE_API_BASE_URL is not configured.');
 
-export async function login(email: string, password: string){
-    const request = new Request(`${API_BASE_URL}/auth/login`, {
-        method: "POST",
-        headers:{
-            'content-type': 'application/json'
+export async function APIClient(path: string, method: string, headers: Record<string, string>, body: Record<string, string>){
+    const request = new Request(`${API_BASE_URL}${path}`, {
+        method,
+        headers: {
+            ...headers,
+            "authorization": `Bearer ${API_ADMIN_TOKEN}`
         },
-        body: JSON.stringify({
-            email, password
-        })
+        body: JSON.stringify(body)
     });
     const response = await fetch(request);
     if(!response.ok) throw new Error('API Client Error');
-    return response.json()
-}
-
-export async function getTickets() {
-    const request = new Request(`${API_BASE_URL}/tickets`, {
-        method: "GET",
-        headers:{
-            'content-type': 'application/json',
-            'authorization': `Bearer ${API_ADMIN_TOKEN}`
-        },
-    });
-    const response = await fetch(request);
-    if(!response.ok) throw new Error('API Client Error');
-    return response.json()
+    return response.json();
 }
